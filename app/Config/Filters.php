@@ -37,7 +37,7 @@ class Filters extends BaseConfig
         'before' => [
             // 'honeypot',
             // 'csrf',
-            // 'csrf' => ['except' => ['api/record/save']], // added by Dureen
+            'csrf' => ['except' => ['api/*']], // added by Dureen
             // 'invalidchars',
         ],
         'after' => [

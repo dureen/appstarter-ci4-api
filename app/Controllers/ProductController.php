@@ -27,8 +27,8 @@ class ProductController extends ResourceController
         $name = $this->request->getVar('name');
         $price  = $this->request->getVar('price');
         if(!$name && !$price) {
-            $name = $_GET['name'] ?? $_POST['name'];
-            $price = $_GET['price'] ?? $_POST['price'];
+            $name = htmlspecialchars($_GET['name']);
+            $price = htmlspecialchars($_GET['price']);
         }
         $model->save([
             'name' => $name, 
@@ -62,8 +62,8 @@ class ProductController extends ResourceController
         $name = $this->request->getVar('name');
         $price  = $this->request->getVar('price');
         if(!$name && !$price) {
-            $name = $_GET['name'] ?? $_POST['name'];
-            $price = $_GET['price'] ?? $_POST['price'];
+            $name = htmlspecialchars($_GET['name']);
+            $price = htmlspecialchars($_GET['price']);
         }
         $model->save([
             'id' => $id,
