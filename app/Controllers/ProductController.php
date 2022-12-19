@@ -26,20 +26,15 @@ class ProductController extends ResourceController
         $model = new ProductModel();
         $name = $this->request->getVar('name');
         $price  = $this->request->getVar('price');
-        if($name===null && $price===null) {
-            return $this->respondCreated([
-                'error'    => 403,
-                'messages' => 'Failed to add new data (variable=null).',
-            ]);
+        if(!$name && !$price) {
+            $name = $_GET['name'] ?? $_POST['name'];
+            $price = $_GET['price'] ?? $_POST['price'];
         }
-        $data = [
-            'name' => $name,
+        $model->save([
+            'name' => $name, 
             'price' => $price,
-        ];
-
-        $model->save($data);
+        ]);
         $res = [
-            // 'data' => $data,
             'status'   => 201,
             'error'    => null,
             'messages' => [
@@ -64,24 +59,18 @@ class ProductController extends ResourceController
     public function update($id = null)
     {
         $model = new ProductModel();
-        $name = $_GET['name']; // 
-        // $name = $this->request->getVar('name'); // this is doen't work on $_GET
-        $price  = $_GET['price'];// 
-        // $name = $this->request->getVar('price'); // this is doen't work on $_GET
-        if($name===null && $price===null) {
-            return $this->respondCreated([
-                'error'    => 403,
-                'messages' => 'Failed to add new data (variable=null).',
-            ]);
+        $name = $this->request->getVar('name');
+        $price  = $this->request->getVar('price');
+        if(!$name && !$price) {
+            $name = $_GET['name'] ?? $_POST['name'];
+            $price = $_GET['price'] ?? $_POST['price'];
         }
-        $data = [
+        $model->save([
             'id' => $id,
             'name' => $name,
             'price' => $price,
-        ];
-        $model->save($data);
+        ]);
         $res = [
-            // 'data' => $data,
             'status'   => 200,
             'error'    => null,
             'messages' => [
@@ -95,7 +84,7 @@ class ProductController extends ResourceController
     public function delete($id = null)
     {
         $model = new ProductModel();
-        $data = $model->where('id', $id)->delete($id);
+        $data = $model->find($id);
         if ($data) {
             $model->delete($id);
             $res = [
