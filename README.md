@@ -23,7 +23,7 @@ This is CodeIgniter 4 REST API sample project
 
 ## Installation, updates, and more setup
 
-Please read the original codeIgniter 4 [Click here](README-Origin.md)
+Please read the original codeIgniter 4 [README](README-Origin.md)
 
 ## License
 [MIT](LICENSE) ?

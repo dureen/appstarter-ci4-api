@@ -5,14 +5,13 @@ namespace App\Controllers;
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\ProductModel;
-
 // use App\Config\Services;
 
 class ProductController extends ResourceController
 {
     use ResponseTrait;
 
-    // get all product
+    // GET all product
     public function index()
     {
         $model = new ProductModel();
@@ -30,16 +29,18 @@ class ProductController extends ResourceController
             $name = htmlspecialchars($_GET['name']);
             $price = htmlspecialchars($_GET['price']);
         }
-        $model->save([
+        $data = [
             'name' => $name, 
             'price' => $price,
-        ]);
+        ];
+        $model->save($data);
         $res = [
             'status'   => 201,
             'error'    => null,
             'messages' => [
-                'success' => 'Product data was successfully added.'
-            ]
+                'success' => true,
+            ],
+            'data'     => $data,
         ];
         return $this->respondCreated($res);
     }
@@ -65,17 +66,19 @@ class ProductController extends ResourceController
             $name = htmlspecialchars($_GET['name']);
             $price = htmlspecialchars($_GET['price']);
         }
-        $model->save([
+        $data = [
             'id' => $id,
             'name' => $name,
             'price' => $price,
-        ]);
+        ];
+        $model->save($data);
         $res = [
             'status'   => 200,
             'error'    => null,
             'messages' => [
-                'success' => 'Product data was successfully updated.'
-            ]
+                'success' => true,
+            ],
+            'data'     => $data,
         ];
         return $this->respond($res);
     }
@@ -91,7 +94,7 @@ class ProductController extends ResourceController
                 'status'   => 200,
                 'error'    => null,
                 'messages' => [
-                    'success' => 'Product data was successfully deleted.'
+                    'success' => true,
                 ]
             ];
             return $this->respondDeleted($res);
