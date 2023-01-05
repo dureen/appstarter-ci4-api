@@ -39,7 +39,7 @@ $routes->get('/', 'Home::index'); //default
 
 /*
  * --------------------------------------------------------------------
- * added by Dureen Route Definitions
+ * in-progress by Dureen
  * --------------------------------------------------------------------
  */
 // $routes->resource('product');

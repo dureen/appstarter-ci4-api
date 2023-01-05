@@ -22,17 +22,15 @@ class ProductController extends ResourceController
     // create a product
     public function create()
     {
-        $model = new ProductModel();
         $name = $this->request->getVar('name');
+        if(! $name) return $this->respond('Name field is required');
         $price  = $this->request->getVar('price');
-        if(!$name && !$price) {
-            $name = htmlspecialchars($_GET['name']);
-            $price = htmlspecialchars($_GET['price']);
-        }
+        if(! $price) return $this->respond('Price field is required');
         $data = [
             'name' => $name, 
             'price' => $price,
         ];
+        $model = new ProductModel();
         $model->save($data);
         $res = [
             'status'   => 201,
@@ -59,18 +57,18 @@ class ProductController extends ResourceController
     // Update a product
     public function update($id = null)
     {
-        $model = new ProductModel();
-        $name = $this->request->getVar('name');
-        $price  = $this->request->getVar('price');
-        if(!$name && !$price) {
-            $name = htmlspecialchars($_GET['name']);
-            $price = htmlspecialchars($_GET['price']);
-        }
+        $input = $this->request->getRawInput();
+
+        if(! $input['name']) return $this->respond('Name field is required');
+        if(! $input['price']) return $this->respond('Price field is required');
+    
         $data = [
             'id' => $id,
-            'name' => $name,
-            'price' => $price,
+            'name' => $input['name'],
+            'price' => $input['price'],
         ];
+
+        $model = new ProductModel();
         $model->save($data);
         $res = [
             'status'   => 200,
