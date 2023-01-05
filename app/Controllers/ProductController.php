@@ -35,9 +35,7 @@ class ProductController extends ResourceController
         $res = [
             'status'   => 201,
             'error'    => null,
-            'messages' => [
-                'success' => true,
-            ],
+            'messages' => 'Created.',
             'data'     => $data,
         ];
         return $this->respondCreated($res);
@@ -54,31 +52,34 @@ class ProductController extends ResourceController
             return $this->failNotFound('Not found.');
         }
     }
+
     // Update a product
-    public function update($id = null)
+    public function update($id=null)
     {
         $input = $this->request->getRawInput();
 
         if(! $input['name']) return $this->respond('Name field is required');
         if(! $input['price']) return $this->respond('Price field is required');
     
-        $data = [
-            'id' => $id,
-            'name' => $input['name'],
-            'price' => $input['price'],
-        ];
-
         $model = new ProductModel();
-        $model->save($data);
-        $res = [
-            'status'   => 200,
-            'error'    => null,
-            'messages' => [
-                'success' => true,
-            ],
-            'data'     => $data,
-        ];
-        return $this->respond($res);
+        $product = $model->where('id', $id)->first();
+        if($product) {
+            $data = [
+                'id' => $id,
+                'name' => $input['name'] ?? $product['name'],
+                'price' => $input['price'] ?? $product['price'],
+            ];
+            $model->save($data);
+            $res = [
+                'status'   => 200,
+                'error'    => null,
+                'messages' => 'Updated.',
+                'data'     => $data,
+            ];
+            return $this->respond($res);
+        } else {
+            return $this->failNotFound('Not found.');
+        }
     }
 
     // Delete a product
@@ -91,9 +92,7 @@ class ProductController extends ResourceController
             $res = [
                 'status'   => 200,
                 'error'    => null,
-                'messages' => [
-                    'success' => true,
-                ]
+                'messages' => 'deleted',
             ];
             return $this->respondDeleted($res);
         } else {
