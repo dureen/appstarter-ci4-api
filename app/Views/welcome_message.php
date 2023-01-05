@@ -230,11 +230,11 @@
 
     <h1>About this API</h1>
 
-    <p>The the example of API routes can be found at:</p>
+    <p>The API routes can be found at:</p>
 
     <pre><code>app/Config/Routes.php</code></pre>
 
-    <p>The corresponding example API controller for this page can be found at:</p>
+    <p>The API controller can be found at:</p>
 
     <pre><code>app/Controllers/ProductController.php</code></pree>
 
