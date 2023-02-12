@@ -51,7 +51,6 @@ $routes->group('api/v1', static function ($routes) {
     $routes->resource('product', ['controller' => 'ProductController']);
 });
 
-
 /*
  * --------------------------------------------------------------------
  * Additional Routing

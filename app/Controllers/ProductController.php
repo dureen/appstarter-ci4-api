@@ -19,7 +19,7 @@ class ProductController extends ResourceController
         $res = [
             'status'   => 1,
             'code'     => 200,
-            'messages' => 'OK.',
+            'message' => 'OK.',
             'data'     => $data,
         ];
         return $this->respond($res);
@@ -41,7 +41,7 @@ class ProductController extends ResourceController
         $res = [
             'status'   => 1,
             'code'     => 201,
-            'messages' => 'Created.',
+            'message' => 'Created.',
             'data'     => $data,
         ];
         return $this->respondCreated($res);
@@ -56,7 +56,7 @@ class ProductController extends ResourceController
             $res = [
                 'status'   => 1,
                 'code'     => 200,
-                'messages' => 'OK.',
+                'message' => 'OK.',
                 'data'     => $data,
             ];
             return $this->respond($res);
@@ -64,7 +64,7 @@ class ProductController extends ResourceController
             $res = [
                 'status'   => 0,
                 'code'    => 404,
-                'messages' => 'Not found.',
+                'message' => 'Not found.',
             ];
             return $this->failNotFound($res);
         }
@@ -90,7 +90,7 @@ class ProductController extends ResourceController
             $res = [
                 'status'   => 1,
                 'code'     => 200,
-                'messages' => 'Updated.',
+                'message' => 'Updated.',
                 'data'     => $data,
             ];
             return $this->respond($res);
@@ -98,7 +98,7 @@ class ProductController extends ResourceController
             $res = [
                 'status'   => 0,
                 'code'    => 404,
-                'messages' => 'Not found.',
+                'message' => 'Not found.',
             ];
             return $this->failNotFound($res);
         }
@@ -114,14 +114,14 @@ class ProductController extends ResourceController
             $res = [
                 'status'   => 1,
                 'code'    => 200,
-                'messages' => 'deleted',
+                'message' => 'deleted',
             ];
             return $this->respondDeleted($res);
         } else {
             $res = [
                 'status'   => 0,
                 'code'    => 404,
-                'messages' => 'Not found.',
+                'message' => 'Not found.',
             ];
             return $this->failNotFound($res);
         }
