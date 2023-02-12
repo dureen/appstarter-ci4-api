@@ -17,7 +17,7 @@ class ProductController extends ResourceController
         $model = new ProductModel();
         $data['produk'] = $model->orderBy('id', 'DESC')->findAll();
         $res = [
-            'status'   => true,
+            'status'   => 200,
             'code'     => 200,
             'message' => 'OK.',
             'data'     => $data,
@@ -38,14 +38,14 @@ class ProductController extends ResourceController
         $status = $model->save($data);
         if($status) {
             $res = [
-                'status'   => $status,
+                'status'   => 201,
                 'code'     => 201,
                 'message' => 'Created.',
             ];
             return $this->respondCreated($res);
         } else {
             $errors = [
-                'status'   => $status,
+                'status'   => 400,
                 'code'     => 400,
                 'message' => 'Failed to create data.',
             ];
@@ -61,19 +61,15 @@ class ProductController extends ResourceController
         $data = $model->where('id', $id)->first();
         if ($data) {
             $res = [
-                'status'   => true,
+                'status'   => 200,
                 'code'     => 200,
                 'message' => 'OK.',
                 'data'     => $data,
             ];
             return $this->respond($res);
         } else {
-            $res = [
-                'status'   => false,
-                'code'    => 404,
-                'message' => 'Not found.',
-            ];
-            return $this->failNotFound($res);
+            $description = 'Not found.';
+            return $this->failNotFound($description);
         }
     }
 
@@ -100,19 +96,15 @@ class ProductController extends ResourceController
                 return $this->respond($res);
             } else {
                 $errors = [
-                    'status'   => $status,
+                    'status'   => 400,
                     'code'     => 400,
                     'message' => 'Failed to update data.',
                 ];
                 return $this->fail($errors, 400);
             }
         } else {
-            $res = [
-                'status'   => false,
-                'code'    => 404,
-                'message' => 'Not found.',
-            ];
-            return $this->failNotFound($res);
+            $description = 'Not found.';
+            return $this->failNotFound($description);
         }
     }
 
@@ -132,19 +124,15 @@ class ProductController extends ResourceController
                 return $this->respondDeleted($res);
             } else {
                 $errors = [
-                    'status'   => $status,
+                    'status'   => 400,
                     'code'     => 400,
                     'message' => 'Failed to delete a data.',
                 ];
                 return $this->fail($errors, 400);
             }
         } else {
-            $res = [
-                'status'   => false,
-                'code'    => 404,
-                'message' => 'Not found.',
-            ];
-            return $this->failNotFound($res);
+            $description = 'Not found.';
+            return $this->failNotFound($description);
         }
     }
 }

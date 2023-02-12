@@ -45,6 +45,8 @@ $routes->group('api/v1', static function ($routes) {
     $routes->resource('product', ['controller' => 'ProductController']);
 });
 
+
+$routes->set404Override('App\Controllers\ErrorController::isNotFound'); 
 /*
  * --------------------------------------------------------------------
  * Additional Routing
