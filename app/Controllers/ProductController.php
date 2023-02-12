@@ -17,7 +17,7 @@ class ProductController extends ResourceController
         $model = new ProductModel();
         $data['produk'] = $model->orderBy('id', 'DESC')->findAll();
         $res = [
-            'status'   => 1,
+            'status'   => true,
             'code'     => 200,
             'message' => 'OK.',
             'data'     => $data,
@@ -29,22 +29,29 @@ class ProductController extends ResourceController
     public function create()
     {
         $name = $this->request->getVar('name');
-        if(! $name) return $this->respond('Name field is required');
         $price  = $this->request->getVar('price');
-        if(! $price) return $this->respond('Price field is required');
         $data = [
-            'name' => $name, 
+            'name'  => $name,
             'price' => $price,
         ];
         $model = new ProductModel();
-        $model->save($data);
-        $res = [
-            'status'   => 1,
-            'code'     => 201,
-            'message' => 'Created.',
-            'data'     => $data,
-        ];
-        return $this->respondCreated($res);
+        $status = $model->save($data);
+        if($status) {
+            $res = [
+                'status'   => $status,
+                'code'     => 201,
+                'message' => 'Created.',
+            ];
+            return $this->respondCreated($res);
+        } else {
+            $errors = [
+                'status'   => $status,
+                'code'     => 400,
+                'message' => 'Failed to create data.',
+            ];
+            return $this->fail($errors, 400);
+        }
+    
     }
 
     // Single product view
@@ -54,7 +61,7 @@ class ProductController extends ResourceController
         $data = $model->where('id', $id)->first();
         if ($data) {
             $res = [
-                'status'   => 1,
+                'status'   => true,
                 'code'     => 200,
                 'message' => 'OK.',
                 'data'     => $data,
@@ -62,7 +69,7 @@ class ProductController extends ResourceController
             return $this->respond($res);
         } else {
             $res = [
-                'status'   => 0,
+                'status'   => false,
                 'code'    => 404,
                 'message' => 'Not found.',
             ];
@@ -74,9 +81,6 @@ class ProductController extends ResourceController
     public function update($id=null)
     {
         $input = $this->request->getRawInput();
-
-        if(! $input['name']) return $this->respond('Name field is required');
-        if(! $input['price']) return $this->respond('Price field is required');
     
         $model = new ProductModel();
         $product = $model->where('id', $id)->first();
@@ -86,17 +90,25 @@ class ProductController extends ResourceController
                 'name' => $input['name'] ?? $product['name'],
                 'price' => $input['price'] ?? $product['price'],
             ];
-            $model->save($data);
-            $res = [
-                'status'   => 1,
-                'code'     => 200,
-                'message' => 'Updated.',
-                'data'     => $data,
-            ];
-            return $this->respond($res);
+            $status = $model->save($data);
+            if ($status) {
+                $res = [
+                    'status'   => $status,
+                    'code'     => 200,
+                    'message' => 'Updated.',
+                ];
+                return $this->respond($res);
+            } else {
+                $errors = [
+                    'status'   => $status,
+                    'code'     => 400,
+                    'message' => 'Failed to update data.',
+                ];
+                return $this->fail($errors, 400);
+            }
         } else {
             $res = [
-                'status'   => 0,
+                'status'   => false,
                 'code'    => 404,
                 'message' => 'Not found.',
             ];
@@ -110,16 +122,25 @@ class ProductController extends ResourceController
         $model = new ProductModel();
         $data = $model->find($id);
         if ($data) {
-            $model->delete($id);
-            $res = [
-                'status'   => 1,
-                'code'    => 200,
-                'message' => 'deleted',
-            ];
-            return $this->respondDeleted($res);
+            $status = $model->delete($id);
+            if ($status) {
+                $res = [
+                    'status'   => $status,
+                    'code'    => 200,
+                    'message' => 'deleted',
+                ];
+                return $this->respondDeleted($res);
+            } else {
+                $errors = [
+                    'status'   => $status,
+                    'code'     => 400,
+                    'message' => 'Failed to delete a data.',
+                ];
+                return $this->fail($errors, 400);
+            }
         } else {
             $res = [
-                'status'   => 0,
+                'status'   => false,
                 'code'    => 404,
                 'message' => 'Not found.',
             ];
