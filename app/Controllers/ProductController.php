@@ -16,7 +16,13 @@ class ProductController extends ResourceController
     {
         $model = new ProductModel();
         $data['produk'] = $model->orderBy('id', 'DESC')->findAll();
-        return $this->respond($data);
+        $res = [
+            'status'   => 1,
+            'code'     => 200,
+            'messages' => 'OK.',
+            'data'     => $data,
+        ];
+        return $this->respond($res);
     }
 
     // create a product
@@ -33,8 +39,8 @@ class ProductController extends ResourceController
         $model = new ProductModel();
         $model->save($data);
         $res = [
-            'status'   => 201,
-            'error'    => null,
+            'status'   => 1,
+            'code'     => 201,
             'messages' => 'Created.',
             'data'     => $data,
         ];
@@ -47,9 +53,20 @@ class ProductController extends ResourceController
         $model = new ProductModel();
         $data = $model->where('id', $id)->first();
         if ($data) {
-            return $this->respond($data);
+            $res = [
+                'status'   => 1,
+                'code'     => 200,
+                'messages' => 'OK.',
+                'data'     => $data,
+            ];
+            return $this->respond($res);
         } else {
-            return $this->failNotFound('Not found.');
+            $res = [
+                'status'   => 0,
+                'code'    => 404,
+                'messages' => 'Not found.',
+            ];
+            return $this->failNotFound($res);
         }
     }
 
@@ -71,14 +88,19 @@ class ProductController extends ResourceController
             ];
             $model->save($data);
             $res = [
-                'status'   => 200,
-                'error'    => null,
+                'status'   => 1,
+                'code'     => 200,
                 'messages' => 'Updated.',
                 'data'     => $data,
             ];
             return $this->respond($res);
         } else {
-            return $this->failNotFound('Not found.');
+            $res = [
+                'status'   => 0,
+                'code'    => 404,
+                'messages' => 'Not found.',
+            ];
+            return $this->failNotFound($res);
         }
     }
 
@@ -90,13 +112,18 @@ class ProductController extends ResourceController
         if ($data) {
             $model->delete($id);
             $res = [
-                'status'   => 200,
-                'error'    => null,
+                'status'   => 1,
+                'code'    => 200,
                 'messages' => 'deleted',
             ];
             return $this->respondDeleted($res);
         } else {
-            return $this->failNotFound('Not found.');
+            $res = [
+                'status'   => 0,
+                'code'    => 404,
+                'messages' => 'Not found.',
+            ];
+            return $this->failNotFound($res);
         }
     }
 }
